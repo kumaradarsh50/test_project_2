@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -58,25 +58,63 @@ const GridContainer = () => {
   };
 
   return (
-    <Container>
-      <div style={{ width: '90vw', margin: '0 auto' }}>
-        {selectFormPage && <Navigate to='/' replace={true} />}
-        <button style={{ marginBottom: '2rem' }} onClick={backToFormHandler}>
-          Go to form
-        </button>
-        <div className='ag-theme-alpine' style={{ height: 400, width: '100%' }}>
-          <AgGridReact
-            className='ag-theme-alpine'
-            animateRows='true'
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            enableRangeSelection='true'
-            rowData={rowData}
-            rowSelection='multiple'
-            suppressRowClickSelection='true'
-          ></AgGridReact>
-        </div>
-      </div>
+    // <Container fluid>
+    //   <Row>
+    //     <Col>
+    //       {/* <div style={{ width: '90vw', margin: '0 auto' }}> */}
+    //       {selectFormPage && <Navigate to='/' replace={true} />}
+    //       <button style={{ marginBottom: '2rem' }} onClick={backToFormHandler}>
+    //         Go to form
+    //       </button>
+    //       <div
+    //         className='ag-theme-alpine'
+    //         style={{ height: 400, width: '100%' }}
+    //       >
+    //         <AgGridReact
+    //           className='ag-theme-alpine'
+    //           animateRows='true'
+    //           columnDefs={columnDefs}
+    //           defaultColDef={defaultColDef}
+    //           enableRangeSelection='true'
+    //           rowData={rowData}
+    //           rowSelection='multiple'
+    //           suppressRowClickSelection='true'
+    //         ></AgGridReact>
+    //       </div>
+    //       {/* </div> */}
+    //     </Col>
+    //   </Row>
+    // </Container>
+    <Container fluid='md'>
+      <Row>
+        <Col>
+          <div style={{ width: '50vw', margin: '0 auto' }}>
+            {' '}
+            {selectFormPage && <Navigate to='/' replace={true} />}
+            <button
+              style={{ marginBottom: '2rem' }}
+              onClick={backToFormHandler}
+            >
+              Go to form
+            </button>
+            <div
+              className='ag-theme-alpine'
+              style={{ height: 400, width: '100%' }}
+            >
+              <AgGridReact
+                className='ag-theme-alpine'
+                animateRows='true'
+                columnDefs={columnDefs}
+                defaultColDef={defaultColDef}
+                enableRangeSelection='true'
+                rowData={rowData}
+                rowSelection='multiple'
+                suppressRowClickSelection='true'
+              ></AgGridReact>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };
