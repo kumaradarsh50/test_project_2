@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
 import { Container } from 'react-bootstrap';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { fetchApiHandler } from '../utils/fetchApiHandler';
 
-const Aggrid = ({ dataUrl }) => {
+const GridContainer = () => {
   const [rowData, setRowData] = useState([]);
+  const { searchTerm } = useParams();
   const [header, setHeader] = useState([]);
   const [selectFormPage, setSelectFormPage] = useState(null);
 
@@ -19,14 +21,10 @@ const Aggrid = ({ dataUrl }) => {
       });
     }
   };
-  console.log('datausr');
   // gets called once, no dependencies, loads the grid data
   useEffect(() => {
-    fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-      // https://www.ag-grid.com/example-assets/olympic-winners.json
-      .then((resp) => resp.json())
-      .then((data) => setRowData(data));
-  }, []);
+    fetchApiHandler(`${searchTerm}`).then((data) => setRowData(data));
+  }, [searchTerm]);
 
   useEffect(() => {
     getHeader();
@@ -58,6 +56,7 @@ const Aggrid = ({ dataUrl }) => {
   const backToFormHandler = () => {
     setSelectFormPage({ form: true });
   };
+
   return (
     <Container>
       <div style={{ width: '90vw', margin: '0 auto' }}>
@@ -76,53 +75,10 @@ const Aggrid = ({ dataUrl }) => {
             rowSelection='multiple'
             suppressRowClickSelection='true'
           ></AgGridReact>
-
-          {/* <table className='table' style={{ width: '90vw' }}>
-          <thead>
-            <tr>
-              {header.length > 0 &&
-                header.map((item, index) => {
-                  return <th key={index}>{item.toUpperCase()}</th>;
-                })}
-            </tr>
-          </thead>
-
-          {rowData.length > 0 &&
-            rowData.map((item, index) => {
-              const {
-                athlete,
-                age,
-                country,
-                year,
-                date,
-                sport,
-                gold,
-                silver,
-                bronze,
-                total,
-              } = item;
-              return (
-                <tbody key={index}>
-                  <tr>
-                    <td>{athlete}</td>
-                    <td>{age}</td>
-                    <td>{country}</td>
-                    <td>{year}</td>
-                    <td>{date}</td>
-                    <td>{sport}</td>
-                    <td>{gold}</td>
-                    <td>{silver}</td>
-                    <td>{bronze}</td>
-                    <td>{total}</td>
-                  </tr>
-                </tbody>
-              );
-            })}
-        </table> */}
         </div>
       </div>
     </Container>
   );
 };
 
-export default Aggrid;
+export default GridContainer;
